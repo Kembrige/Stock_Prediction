@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stock Price Prediction</title>
+</head>
+<body>
+    <h1>Stock Price Prediction</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Predict</button>
+    </form>
+    {% if ticker %}
+        <h2>Predictions for {{ ticker }}</h2>
+        <img src="{{ plot_path }}" alt="Stock Price Prediction">
+    {% endif %}
+</body>
+</html>
