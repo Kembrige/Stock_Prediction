@@ -14,5 +14,25 @@
         <h2>Predictions for {{ ticker }}</h2>
         <img src="{{ plot_path }}" alt="Stock Price Prediction">
     {% endif %}
+<script>
+        function handlePredict() {
+            const ticker = document.getElementById('tickerInput').value;
+            fetch('http://mlprediction.online/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ ticker: ticker })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('predictionResult').innerText = JSON.stringify(data, null, 2);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('predictionResult').innerText = 'An error occurred while fetching the prediction.';
+            });
+        }
+    </script>
 </body>
 </html>
