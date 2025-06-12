@@ -1,18 +1,40 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Stock Price Prediction</title>
-</head>
-<body>
-    <h1>Stock Price Prediction</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Predict</button>
-    </form>
-    {% if ticker %}
-        <h2>Predictions for {{ ticker }}</h2>
-        <img src="{{ plot_path }}" alt="Stock Price Prediction">
-    {% endif %}
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}Stock Prediction{% endblock %}
+
+{% block content %}
+<h1 class="text-center mb-4">Stock Price Prediction</h1>
+
+<!-- Форма выбора тикера и интервала -->
+<form method="post" class="mb-4">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="ticker" class="form-label">Select Stock Ticker</label>
+        {{ form.ticker }}
+    </div>
+    <div class="mb-3">
+        <label for="time_interval" class="form-label">Select Time Interval</label>
+        {{ form.time_interval }}
+    </div>
+    <button type="submit" class="btn btn-primary">Predict</button>
+</form>
+
+<!-- График -->
+{% if plot_div %}
+<div id="graph-container" class="card">
+    <div class="card-body">
+        {{ plot_div|safe }}
+    </div>
+</div>
+{% endif %}
+
+<!-- Время обучения -->
+{% if elapsed_time %}
+<p class="text-muted mt-3">Training Time: {{ elapsed_time }}</p>
+{% endif %}
+
+<!-- Ошибки -->
+{% if error %}
+<div class="alert alert-danger mt-3">{{ error }}</div>
+{% endif %}
+{% endblock %}
